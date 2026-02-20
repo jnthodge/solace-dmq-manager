@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+app:
+  security:
+    username: ${APP_USERNAME:admin}
+    password: ${APP_PASSWORD:admin}
+  solace:
+    host: ${SOLACE_HOST:tcp://localhost:55555}
+    vpn: ${SOLACE_VPN:default}
+    client-username: ${SOLACE_USERNAME:admin}
+    client-password: ${SOLACE_PASSWORD:admin}
+    semp-url: ${SOLACE_SEMP_URL:http://localhost:8080}
+    semp-username: ${SOLACE_SEMP_USERNAME:${SOLACE_USERNAME:admin}}
+    semp-password: ${SOLACE_SEMP_PASSWORD:${SOLACE_PASSWORD:admin}}
