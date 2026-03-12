@@ -63,7 +63,7 @@ public class DmqService {
 
     public List<DmqMessage> browseMessages(String queueName, int maxMessages) throws JCSMPException {
         Queue queue = JCSMPFactory.onlyInstance().createQueue(queueName);
-        Browser browser = createBrowser(queue);
+        Browser browser = session.createBrowser(queue);
         List<DmqMessage> results = new ArrayList<>();
         BytesXMLMessage message;
         long idx = 0;
@@ -87,7 +87,7 @@ public class DmqService {
         Queue destination = JCSMPFactory.onlyInstance().createQueue(originQueue);
 
         XMLMessageProducer producer = session.getMessageProducer(null);
-        Browser browser = createBrowser(dmqQueue);
+        Browser browser = session.createBrowser(dmqQueue);
         long copied = 0;
         BytesXMLMessage browsed;
         while ((browsed = browser.getNext()) != null) {
@@ -116,12 +116,6 @@ public class DmqService {
         producer.close();
 
         return new ReplayResult(queueName, originQueue, copied, deleteFromDmqAfterCopy);
-    }
-
-    private Browser createBrowser(Queue queue) throws JCSMPException {
-        BrowserProperties browserProperties = new BrowserProperties();
-        browserProperties.setEndpoint(queue);
-        return session.createBrowser(browserProperties);
     }
 
     private byte[] extractBytes(BytesXMLMessage message) {
